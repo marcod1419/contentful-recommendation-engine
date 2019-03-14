@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import { TextInput } from "@contentful/forma-36-react-components";
 import { init } from "contentful-ui-extensions-sdk";
+
+import ReferenceCardWithRating from "./components/ReferenceCardWithRating/ReferenceCardWithRating";
+
 import "@contentful/forma-36-react-components/dist/styles.css";
 import "./index.css";
 
@@ -45,13 +48,15 @@ class App extends React.Component {
   render = () => {
     return (
       <div>
-        <h1>TEST</h1>
-        <TextInput
-          width="large"
-          type="text"
-          id="my-field"
-          value={this.state.value}
-          onChange={this.onChange}
+        <ReferenceCardWithRating
+          type="Test Type"
+          title="Test Block"
+          image="https://via.placeholder.com/100/09f/fff.png"
+          imageTitle="Img Title"
+          rating={100}
+          onClick={() => {
+            console.log("Test selection!");
+          }}
         />
       </div>
     );
