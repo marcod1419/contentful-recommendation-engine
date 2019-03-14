@@ -1,0 +1,24 @@
+.cardContainer {
+  display: flex;
+  cursor: pointer;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.recommendLevel {
+  margin-bottom: 0.75rem;
+}
