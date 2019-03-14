@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { TextInput } from '@contentful/forma-36-react-components';
-import { init } from 'contentful-ui-extensions-sdk';
-import '@contentful/forma-36-react-components/dist/styles.css';
-import './index.css';
+import React from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { TextInput } from "@contentful/forma-36-react-components";
+import { init } from "contentful-ui-extensions-sdk";
+import "@contentful/forma-36-react-components/dist/styles.css";
+import "./index.css";
 
 class App extends React.Component {
   static propTypes = {
-    sdk: PropTypes.object.isRequired,
+    sdk: PropTypes.object.isRequired
   };
 
   state = {
-    value: this.props.sdk.field.getValue(),
+    value: this.props.sdk.field.getValue()
   };
 
   componentDidMount() {
@@ -44,19 +44,22 @@ class App extends React.Component {
 
   render = () => {
     return (
-      <TextInput
-        width="large"
-        type="text"
-        id="my-field"
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <div>
+        <h1>TEST</h1>
+        <TextInput
+          width="large"
+          type="text"
+          id="my-field"
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+      </div>
     );
   };
 }
 
 init(sdk => {
-  ReactDOM.render(<App sdk={sdk} />, document.getElementById('root'));
+  ReactDOM.render(<App sdk={sdk} />, document.getElementById("root"));
 });
 
 // Enabling hot reload

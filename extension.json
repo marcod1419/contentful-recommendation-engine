@@ -1,8 +1,6 @@
 {
-  "id": "my-first-extension",
-  "name": "my-first-extension",
+  "id": "contentful-recommendation-engine",
+  "name": "contentful-recommendation-engine",
   "srcdoc": "./build/index.html",
-  "fieldTypes": [
-    "Entries"
-  ]
+  "fieldTypes": ["Entries"]
 }
