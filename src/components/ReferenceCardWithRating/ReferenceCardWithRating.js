@@ -38,11 +38,13 @@ class ReferenceCardWithRating extends React.Component {
               Recommendation: {this.props.rating}%
             </Tag>
             {this.props.image && (
-              <Asset
-                style={{ width: 80, height: 80 }}
-                src={this.props.image}
-                title={this.props.imageTitle}
-              />
+              <a href={this.props.image} target="_blank">
+                <Asset
+                  style={{ width: 80, height: 80 }}
+                  src={this.props.image}
+                  title={this.props.imageTitle}
+                />
+              </a>
             )}
           </div>
         </div>

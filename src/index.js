@@ -51,7 +51,7 @@ class App extends React.Component {
         <ReferenceCardWithRating
           type="Test Type"
           title="Test Block"
-          image="https://via.placeholder.com/100/09f/fff.png"
+          image="https://via.placeholder.com/1000/09f/fff.png"
           imageTitle="Img Title"
           rating={100}
           onClick={() => {
