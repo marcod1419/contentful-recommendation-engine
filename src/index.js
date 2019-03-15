@@ -22,7 +22,12 @@ class App extends React.Component {
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
 
-    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : [];
+    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : undefined;
+
+    if (!entryIds) {
+      return;
+    }
+
 
     let service = createRecService(this.props.sdk);
 
@@ -67,17 +72,21 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
+
+        console.log('incoming data: ' + JSON.stringify(data));
+
+        return;
         let entry = [
           {
             sys: {
               type: "Link",
               linkType: "Entry",
-              id: data.entryId
+              id:'123' 
             }
           }
         ];
 
-        this.props.sdk.field.setValue(entry).then(console.log("done"));
+        //this.props.sdk.field.setValue(entry).then(console.log("done"));
       });
   };
 

@@ -101,7 +101,7 @@ class RecommendationView extends React.Component {
             extraClassNames="endButtons"
             disabled={!this.state.selectedBlock}
             onClick={() =>
-              this.props.onAdd("done from within: " + this.state.selectedBlock)
+              this.props.onAdd(this.state.selectedBlock)
             }
           >
             Insert Selected Entry
