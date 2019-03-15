@@ -13,14 +13,35 @@ import { init } from "contentful-ui-extensions-sdk";
 import "@contentful/forma-36-react-components/dist/styles.css";
 import ReferenceCardWithRating from "../ReferenceCardWithRating/ReferenceCardWithRating";
 import "./recommendationView.css";
+import createRecService from "../../RecommendationService";
 
 class RecommendationView extends React.Component {
   state = {
     filter: "marketing",
-    selectedBlock: undefined
+    selectedBlock: undefined,
+    blocks: []
   };
   componentDidMount() {
-    console.log(JSON.stringify(this.props.blocks));
+      let service = createRecService(this.props.sdk);
+
+    return service.getMockedRecommendations().then((recs) => {
+        
+      console.log(JSON.stringify(recs[0]));
+      let blocks = recs.map(r => {
+        let entry = r.entry;
+          return {
+            relevance: r.relevance,
+            entry: {
+              id: entry.sys.id,
+              type: 'marketing',
+              title: entry.fields.entryTitle? entry.fields.entryTitle["en-CA"] : ''
+            }
+          }
+        })
+
+      this.setState({blocks : blocks})
+      });
+
   }
 
   onFilterChange = event => {
@@ -32,7 +53,7 @@ class RecommendationView extends React.Component {
   };
 
   render = () => {
-    let renderedBlocks = this.props.blocks.filter(
+    let renderedBlocks = this.state.blocks.filter(
       b => b.entry.type === this.state.filter
     );
 
@@ -66,7 +87,7 @@ class RecommendationView extends React.Component {
                   key={b.entry.id}
                   rating={b.relevance}
                   type={"marketing"}
-                  title={"my block type"}
+                  title={b.entry.title}
                   selected={this.state.selectedBlock === b.entry.id}
                   onClick={() => this.onBlockSelected(b.entry.id)}
                 />

@@ -22,26 +22,21 @@ class App extends React.Component {
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
 
-    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : []
+    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : [];
 
+    let service = createRecService(this.props.sdk);
 
-    let service = createRecService(this.props.sdk)
-
-    service.getReferencedEntries(entryIds).then((entries) => {
-
+    service.getReferencedEntries(entryIds).then(entries => {
       let data = entries.items.map(e => {
         return {
-          title: e.fields['entryTitle']["en-CA"],
+          title: e.fields["entryTitle"]["en-CA"],
           id: e.sys.id
-        }
-      })
+        };
+      });
 
-      this.setState( {entries: data})
-    })
+      this.setState({ entries: data });
+    });
 
-    
-
-    
     //console.log(JSON.stringify(this.props.sdk.field.getValue()));
   }
 
@@ -96,34 +91,14 @@ class App extends React.Component {
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return (<FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />);
+      return <FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />;
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
-      let blocks = [
-        {
-          relevance: 95,
-          entry: {
-            id: "7e7lZ5aru0d2K3HUUqUal4",
-            title: "dummy",
-            type: "marketing"
-          }
-        },
-        {
-          relevance: 20,
-          entry: {
-            id: "7jY4p06eGWgq4UoIyWQMEw",
-            title: "dummy",
-            type: "marketing"
-          }
-        }
-      ];
-      return (
-        <RecommendationView
-          sdk={this.props.sdk}
-          blocks={blocks}
-          onAdd={this.onDialogAddButton}
-          onClose={this.onDialogCloseButton}
-        />
-      );
+
+          return <RecommendationView
+            sdk={this.props.sdk}
+            onAdd={this.onDialogAddButton}
+            onClose={this.onDialogCloseButton}
+          />
     }
   };
 }
