@@ -19,20 +19,21 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
+    //console.log(JSON.stringify(this.props.sdk.field.getValue()));
   }
 
   onExternalChange = value => {
-    this.setState({ value });
+    //this.setState({ value });
   };
 
   onChange = e => {
-    const value = e.currentTarget.value;
+    /*const value = e.currentTarget.value;
     this.setState({ value });
     if (value) {
       this.props.sdk.field.setValue(value);
     } else {
       this.props.sdk.field.removeValue();
-    }
+    }*/
   };
 
   onAddButtonClick = e => {
@@ -46,7 +47,16 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
-        console.log(data);
+
+        let entry = [{
+          "sys": {
+            "type": "Link",
+            "linkType": "Entry",
+            "id": data.entryId 
+          }
+        }]
+
+        this.props.sdk.field.setValue(entry).then(console.log('done'));
       });
   };
 
@@ -56,25 +66,23 @@ class App extends React.Component {
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return <FieldView onClick={this.onAddButtonClick} />;
+      return (<FieldView onClick={this.onAddButtonClick} blocks={this.state.value} />);
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
       let blocks = [
         {
           relevance: 95,
           entry: {
-            id: 1,
+            id: '7e7lZ5aru0d2K3HUUqUal4',
             title: "dummy",
             type: "marketing",
-            entryId: "123"
           }
         },
         {
           relevance: 20,
           entry: {
-            id: 2,
+            id: '7jY4p06eGWgq4UoIyWQMEw',
             title: "dummy",
             type: "marketing",
-            entryId: "123"
           }
         }
       ];
