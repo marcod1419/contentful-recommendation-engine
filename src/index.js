@@ -78,6 +78,7 @@ class App extends React.Component {
         {
           relevance: 95,
           entry: {
+            id:1,
             title: "dummy",
             type: "marketing",
             entryId: "123"
@@ -86,6 +87,7 @@ class App extends React.Component {
         {
           relevance: 20,
           entry: {
+            id:2,
             title: "dummy",
             type: "marketing",
             entryId: "123"
