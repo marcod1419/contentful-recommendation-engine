@@ -42,47 +42,56 @@ class App extends React.Component {
     this.props.sdk.dialogs
       .openExtension({
         id: "contentful-recommendation-engine",
-        width: 500,
+        width: 800,
+        title: "Insert entries by relevance",
         shouldCloseOnOverlayClick: true,
+        shouldCloseOnEscapePress: true,
         parameters: { test: true, value: 42 }
       })
       .then(data => {
-
-        let entry = [{
-          "sys": {
-            "type": "Link",
-            "linkType": "Entry",
-            "id": data.entryId 
+        let entry = [
+          {
+            sys: {
+              type: "Link",
+              linkType: "Entry",
+              id: data.entryId
+            }
           }
-        }]
+        ];
 
-        this.props.sdk.field.setValue(entry).then(console.log('done'));
+        this.props.sdk.field.setValue(entry).then(console.log("done"));
       });
   };
 
-  onDialogCloseButton = data => {
+  onDialogAddButton = data => {
     this.props.sdk.close(data);
+  };
+
+  onDialogCloseButton = () => {
+    this.props.sdk.close();
   };
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return (<FieldView onClick={this.onAddButtonClick} blocks={this.state.value} />);
+      return (
+        <FieldView onClick={this.onAddButtonClick} blocks={this.state.value} />
+      );
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
       let blocks = [
         {
           relevance: 95,
           entry: {
-            id: '7e7lZ5aru0d2K3HUUqUal4',
+            id: "7e7lZ5aru0d2K3HUUqUal4",
             title: "dummy",
-            type: "marketing",
+            type: "marketing"
           }
         },
         {
           relevance: 20,
           entry: {
-            id: '7jY4p06eGWgq4UoIyWQMEw',
+            id: "7jY4p06eGWgq4UoIyWQMEw",
             title: "dummy",
-            type: "marketing",
+            type: "marketing"
           }
         }
       ];
@@ -90,7 +99,8 @@ class App extends React.Component {
         <RecommendationView
           sdk={this.props.sdk}
           blocks={blocks}
-          onDone={this.onDialogCloseButton}
+          onAdd={this.onDialogAddButton}
+          onClose={this.onDialogCloseButton}
         />
       );
     }
