@@ -10,7 +10,8 @@ import ReferenceCardWithRating from "../ReferenceCardWithRating/ReferenceCardWit
 class RecommendationView extends React.Component {
 
   state = { 
-    filter : 'marketing'
+    filter: 'marketing',
+    selectedBlock: undefined
   }
   componentDidMount() {
     console.log(JSON.stringify(this.props.blocks));
@@ -18,6 +19,10 @@ class RecommendationView extends React.Component {
 
   onFilterChange = (event) => {
     this.setState({ filter: event.currentTarget.value });
+  }
+
+  onBlockSelected = (id) => {
+    this.setState({ selectedBlock: id });
   }
 
   render = () => {
@@ -38,10 +43,10 @@ class RecommendationView extends React.Component {
     </Select>
         {
           renderedBlocks.map((b) => {
-            return <ReferenceCardWithRating key={b.entryId} rating={b.relevance} type={"marketing"} title={"my block type"} />
+            return <ReferenceCardWithRating key={b.entry.id} rating={b.relevance} type={"marketing"} title={"my block type"} onClick={() => this.onBlockSelected(b.entry.id)}/>
           })
         }
-        <Button onClick={() => this.props.onDone('done from within --')}>Done</Button>
+        <Button onClick={() => this.props.onDone('done from within: ' + this.state.selectedBlock )}>Done</Button>
 
       </div>
     );
