@@ -78,9 +78,7 @@ class App extends React.Component {
 
         let service = createRecService(this.props.sdk);
 
-        console.log("entries: " + JSON.stringify(entry));
         service.getReferencedEntries([entry.sys.id]).then(entries => {
-          console.log("entries within: " + JSON.stringify(entries));
           let data = entries.items.map(e => {
             return {
               title: e.fields["entryTitle"]["en-CA"],
@@ -88,12 +86,34 @@ class App extends React.Component {
             };
           });
 
+          console.log('values are: ' + JSON.stringify(this.state.values));
+
+          let currentValue = this.state.values || [];
+
+          let newValues = [...currentValue, entry];
+
+
+
+
+          this.props.sdk.field.setValue(newValues).then(() => {
+            this.setState({
+              entries: [...this.state.entries, ...data],
+              values: [...currentValue, entry]
+            })
+          });
+
+          //this.setState({ values: [...this.state.values, entry] })
+         /*this.props.sdk.field.setValue(newValues).then(() => {
+          console.log("done");
           this.setState({ entries: [...this.state.entries, ...data] });
+          });*/
+
+
         });
 
-        /*this.props.sdk.field.setValue(values).then(() => {
+        this.props.sdk.field.setValue(values).then(() => {
           console.log("done");
-        });*/
+        });
         //this.setState({ values: values });
       });
   };
