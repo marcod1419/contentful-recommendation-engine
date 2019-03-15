@@ -24,7 +24,9 @@ class App extends React.Component {
     this.props.sdk.window.startAutoResizer();
     console.log("field values: " + JSON.stringify(this.state.values));
 
-    let entryIds = this.state.values ? this.state.values.map(v => v.sys.id) : undefined;
+    let entryIds = this.state.values
+      ? this.state.values.map(v => v.sys.id)
+      : undefined;
 
     service.getReferencedEntries(entryIds).then(entries => {
       let data = entries.items.map(e => {
@@ -67,24 +69,11 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
-<<<<<<< HEAD
         let entry = {
           sys: {
             type: "Link",
             linkType: "Entry",
             id: data
-=======
-        console.log("incoming data: " + JSON.stringify(data));
-
-        return;
-        let entry = [
-          {
-            sys: {
-              type: "Link",
-              linkType: "Entry",
-              id: "123"
-            }
->>>>>>> Improve rec service
           }
         };
 
@@ -128,15 +117,11 @@ class App extends React.Component {
       );
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
       return (
-<<<<<<< HEAD
-        <RecommendationView sdk={this.props.sdk} onAdd={this.onDialogAddButton} onClose={this.onDialogCloseButton} />
-=======
         <RecommendationView
           sdk={this.props.sdk}
           onAdd={this.onDialogAddButton}
           onClose={this.onDialogCloseButton}
         />
->>>>>>> Improve rec service
       );
     }
   };
