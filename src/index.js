@@ -15,19 +15,15 @@ class App extends React.Component {
   };
 
   state = {
-    value: this.props.sdk.field ? this.props.sdk.field.getValue() : undefined,
+    values: this.props.sdk.field ? this.props.sdk.field.getValue() : [],
     entries: []
   };
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
+    console.log("field values: " + JSON.stringify(this.state.values));
 
-    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : undefined;
-
-    if (!entryIds) {
-      return;
-    }
-
+    let entryIds = this.state.values ? this.state.values.map(v => v.sys.id) : undefined;
 
     let service = createRecService(this.props.sdk);
 
@@ -72,21 +68,33 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
-
-        console.log('incoming data: ' + JSON.stringify(data));
-
-        return;
-        let entry = [
-          {
-            sys: {
-              type: "Link",
-              linkType: "Entry",
-              id:'123' 
-            }
+        let entry = {
+          sys: {
+            type: "Link",
+            linkType: "Entry",
+            id: data
           }
-        ];
+        };
 
-        //this.props.sdk.field.setValue(entry).then(console.log("done"));
+        let service = createRecService(this.props.sdk);
+
+        console.log("entries: " + JSON.stringify(entry));
+        service.getReferencedEntries([entry.sys.id]).then(entries => {
+          console.log("entries within: " + JSON.stringify(entries));
+          let data = entries.items.map(e => {
+            return {
+              title: e.fields["entryTitle"]["en-CA"],
+              id: e.sys.id
+            };
+          });
+
+          this.setState({ entries: [...this.state.entries, ...data] });
+        });
+
+        /*this.props.sdk.field.setValue(values).then(() => {
+          console.log("done");
+        });*/
+        //this.setState({ values: values });
       });
   };
 
@@ -102,12 +110,9 @@ class App extends React.Component {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
       return <FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />;
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
-
-          return <RecommendationView
-            sdk={this.props.sdk}
-            onAdd={this.onDialogAddButton}
-            onClose={this.onDialogCloseButton}
-          />
+      return (
+        <RecommendationView sdk={this.props.sdk} onAdd={this.onDialogAddButton} onClose={this.onDialogCloseButton} />
+      );
     }
   };
 }
