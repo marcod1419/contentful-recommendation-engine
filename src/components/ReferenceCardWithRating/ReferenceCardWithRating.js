@@ -27,7 +27,7 @@ class ReferenceCardWithRating extends React.Component {
 
   render() {
     return (
-      <Card onClick={this.props.onClick}>
+      <Card selected={this.props.selected} onClick={this.props.onClick}>
         <div className="cardContainer">
           <div className="left">
             <Paragraph>{this.props.type}</Paragraph>
@@ -35,7 +35,7 @@ class ReferenceCardWithRating extends React.Component {
           </div>
           <div className="right">
             <Tag tagType={this.getRecLevel()} extraClassNames="recommendLevel">
-              Recommendation: {this.props.rating}%
+              Relevance: {this.props.rating}%
             </Tag>
             {this.props.image && (
               <a href={this.props.image} target="_blank">
@@ -59,13 +59,15 @@ ReferenceCardWithRating.propTypes = {
   description: PropTypes.string,
   image: PropTypes.string,
   imageTitle: PropTypes.string,
-  rating: PropTypes.number.isRequired
+  rating: PropTypes.number.isRequired,
+  selected: PropTypes.boolean
 };
 
 ReferenceCardWithRating.defaultProps = {
   description: undefined,
   image: undefined,
-  imageTitle: undefined
+  imageTitle: undefined,
+  selected: false
 };
 
 export default ReferenceCardWithRating;

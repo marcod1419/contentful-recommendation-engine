@@ -1,0 +1,31 @@
+.recContainer {
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.filterBar {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.buttonBar {
+  margin-top: 1rem;
+}
+
+.blockSelector {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.blockCard {
+  margin-bottom: 0.5rem;
+}
+
+.inputContainer {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.endButtons {
+  margin-right: 1rem;
+}
