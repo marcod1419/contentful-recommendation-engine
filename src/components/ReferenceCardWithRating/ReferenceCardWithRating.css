@@ -4,7 +4,7 @@
 }
 
 .infoHeader {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   height: 30%;
   padding: 0.5rem;
@@ -13,7 +13,7 @@
 
 .cardBg {
   background-size: cover;
-  background-position: center;
+  background-position: top center;
   background-repeat: no-repeat;
 }
 

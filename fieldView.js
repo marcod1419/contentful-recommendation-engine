@@ -20,24 +20,13 @@ const FieldView = ({ blocks, onClick }) => {
     console.log("Item removed", data);
   };
 
-  return (
-    <div>
-      {blocks &&
-        blocks.map(b => {
-          return (
-            <ReferenceCardWithRating
-              key={"abc"}
-              type={"marketing"}
-              title={"abc"}
-              image="https://s3.amazonaws.com/telus-sitebuilder/hackathon/block10.png"
-              onEdit={onItemEdit}
-              onRemove={onItemRemove}
-            />
-          );
-        })}
-      <Button onClick={() => onClick()}>Add</Button>
-    </div>
-  );
+  console.log(JSON.stringify(blocks));
+  return (<div>
+    {blocks && blocks.map((b) => {
+      return <ReferenceCardWithRating key={b.id} image={'https://s3.amazonaws.com/telus-sitebuilder/hackathon/block2.png'}  type={"marketing"} title={b.title} onClick={() => this.onBlockSelected('abc')} />
+    })}
+    <Button onClick = {() => onClick()}>Add</Button>
+  </div >)
 };
 
 export default FieldView;

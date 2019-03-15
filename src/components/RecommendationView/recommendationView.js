@@ -89,7 +89,7 @@ class RecommendationView extends React.Component {
                   rating={b.relevance}
                   type={"marketing"}
                   title={b.entry.title}
-                  image={b.entry.image}
+                  image={'https://s3.amazonaws.com/telus-sitebuilder/hackathon/block2.png'}
                   selected={this.state.selectedBlock === b.entry.id}
                   onClick={() => this.onBlockSelected(b.entry.id)}
                 />
