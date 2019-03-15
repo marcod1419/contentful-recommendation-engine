@@ -19,13 +19,12 @@ class App extends React.Component {
     entries: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const service = createRecService(this.props.sdk);
     this.props.sdk.window.startAutoResizer();
     console.log("field values: " + JSON.stringify(this.state.values));
 
     let entryIds = this.state.values ? this.state.values.map(v => v.sys.id) : undefined;
-
-    let service = createRecService(this.props.sdk);
 
     service.getReferencedEntries(entryIds).then(entries => {
       let data = entries.items.map(e => {
@@ -68,11 +67,24 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
+<<<<<<< HEAD
         let entry = {
           sys: {
             type: "Link",
             linkType: "Entry",
             id: data
+=======
+        console.log("incoming data: " + JSON.stringify(data));
+
+        return;
+        let entry = [
+          {
+            sys: {
+              type: "Link",
+              linkType: "Entry",
+              id: "123"
+            }
+>>>>>>> Improve rec service
           }
         };
 
@@ -108,10 +120,23 @@ class App extends React.Component {
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return <FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />;
+      return (
+        <FieldView
+          onClick={this.onAddButtonClick}
+          blocks={this.state.entries}
+        />
+      );
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
       return (
+<<<<<<< HEAD
         <RecommendationView sdk={this.props.sdk} onAdd={this.onDialogAddButton} onClose={this.onDialogCloseButton} />
+=======
+        <RecommendationView
+          sdk={this.props.sdk}
+          onAdd={this.onDialogAddButton}
+          onClose={this.onDialogCloseButton}
+        />
+>>>>>>> Improve rec service
       );
     }
   };
