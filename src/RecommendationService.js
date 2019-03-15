@@ -14,7 +14,9 @@ export default function createRecService(sdk) {
   };
   const getEntries = content_type => {
     return sdk.space.getEntries({
-      content_type
+      content_type,
+      "sys.publishedAt[exists]": true,
+      "sys.archivedAt[exists]": false
     });
   };
   const getReferencedEntries = (ids = []) => {
