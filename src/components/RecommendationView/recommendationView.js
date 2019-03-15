@@ -10,7 +10,7 @@ import ReferenceCardWithRating from "../ReferenceCardWithRating/ReferenceCardWit
 class RecommendationView extends React.Component {
 
   state = { 
-    filter : undefined
+    filter : 'marketing'
   }
   componentDidMount() {
     console.log(JSON.stringify(this.props.blocks));
