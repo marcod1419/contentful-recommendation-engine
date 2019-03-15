@@ -7,6 +7,7 @@ import "@contentful/forma-36-react-components/dist/styles.css";
 import "./index.css";
 import FieldView from "../fieldView";
 import RecommendationView from "./components/RecommendationView/recommendationView";
+import createRecService from "./RecommendationService";
 
 class App extends React.Component {
   static propTypes = {
@@ -14,11 +15,33 @@ class App extends React.Component {
   };
 
   state = {
-    value: this.props.sdk.field ? this.props.sdk.field.getValue() : undefined
+    value: this.props.sdk.field ? this.props.sdk.field.getValue() : undefined,
+    entries: []
   };
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
+
+    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : []
+
+
+    let service = createRecService(this.props.sdk)
+
+    service.getReferencedEntries(entryIds).then((entries) => {
+
+      let data = entries.items.map(e => {
+        return {
+          title: e.fields['entryTitle']["en-CA"],
+          id: e.sys.id
+        }
+      })
+
+      this.setState( {entries: data})
+    })
+
+    
+
+    
     //console.log(JSON.stringify(this.props.sdk.field.getValue()));
   }
 
@@ -66,7 +89,7 @@ class App extends React.Component {
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return (<FieldView onClick={this.onAddButtonClick} blocks={this.state.value} />);
+      return (<FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />);
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
       let blocks = [
         {

@@ -10,7 +10,7 @@ const FieldView = ({ blocks, onClick }) => {
   console.log(JSON.stringify(blocks));
   return (<div>
     {blocks && blocks.map(b => {
-      return <ReferenceCardWithRating key={'abc'} rating={22} type={"marketing"} title={'abc'} onClick={() => this.onBlockSelected('abc')} />
+      return <ReferenceCardWithRating key={b.id} rating={22} type={"marketing"} title={b.title} onClick={() => this.onBlockSelected('abc')} />
     })}
     <Button onClick = {() => onClick()}>Add</Button>
   </div >)
