@@ -50,27 +50,11 @@ class App extends React.Component {
       });
   };
 
-  onDialogCloseButton = (data) => {
+  onDialogCloseButton = data => {
     this.props.sdk.close(data);
-  }
+  };
 
   render = () => {
-<<<<<<< HEAD
-    return (
-      <div>
-        <ReferenceCardWithRating
-          type="Test Type"
-          title="Test Block"
-          image="https://via.placeholder.com/1000/09f/fff.png"
-          imageTitle="Img Title"
-          rating={100}
-          onClick={() => {
-            console.log("Test selection!");
-          }}
-        />
-      </div>
-    );
-=======
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
       return <FieldView onClick={this.onAddButtonClick} />;
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
@@ -78,7 +62,7 @@ class App extends React.Component {
         {
           relevance: 95,
           entry: {
-            id:1,
+            id: 1,
             title: "dummy",
             type: "marketing",
             entryId: "123"
@@ -87,16 +71,21 @@ class App extends React.Component {
         {
           relevance: 20,
           entry: {
-            id:2,
+            id: 2,
             title: "dummy",
             type: "marketing",
             entryId: "123"
           }
         }
       ];
-      return <RecommendationView sdk={this.props.sdk} blocks={blocks} onDone={this.onDialogCloseButton} />;
+      return (
+        <RecommendationView
+          sdk={this.props.sdk}
+          blocks={blocks}
+          onDone={this.onDialogCloseButton}
+        />
+      );
     }
->>>>>>> first
   };
 }
 
