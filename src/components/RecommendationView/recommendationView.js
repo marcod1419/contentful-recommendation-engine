@@ -46,7 +46,7 @@ class RecommendationView extends React.Component {
             return <ReferenceCardWithRating key={b.entry.id} rating={b.relevance} type={"marketing"} title={"my block type"} onClick={() => this.onBlockSelected(b.entry.id)}/>
           })
         }
-        <Button onClick={() => this.props.onDone('done from within: ' + this.state.selectedBlock )}>Done</Button>
+        <Button onClick={() => this.props.onDone({ entryId: this.state.selectedBlock })}>Done</Button>
 
       </div>
     );
