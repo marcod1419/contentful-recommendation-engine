@@ -15,6 +15,8 @@
     "@contentful/forma-36-fcss": "0.0.14",
     "@contentful/forma-36-react-components": "2.9.12",
     "@contentful/forma-36-tokens": "0.2.1",
+    "@storybook/addon-knobs": "^5.0.1",
+    "contentful": "^7.4.1",
     "contentful-ui-extensions-sdk": "3.7.0",
     "prop-types": "15.7.2",
     "react": "16.8.4",

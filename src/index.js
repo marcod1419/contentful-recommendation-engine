@@ -2,12 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import { TextInput } from "@contentful/forma-36-react-components";
-import { init } from "contentful-ui-extensions-sdk";
-
-import ReferenceCardWithRating from "./components/ReferenceCardWithRating/ReferenceCardWithRating";
-
+import { init, locations } from "contentful-ui-extensions-sdk";
 import "@contentful/forma-36-react-components/dist/styles.css";
 import "./index.css";
+import FieldView from "../fieldView";
+import RecommendationView from "./components/RecommendationView/recommendationView";
 
 class App extends React.Component {
   static propTypes = {
@@ -15,20 +14,11 @@ class App extends React.Component {
   };
 
   state = {
-    value: this.props.sdk.field.getValue()
+    value: this.props.sdk.field ? this.props.sdk.field.getValue() : undefined
   };
 
   componentDidMount() {
     this.props.sdk.window.startAutoResizer();
-
-    // Handler for external field value changes (e.g. when multiple authors are working on the same entry).
-    this.detachExternalChangeHandler = this.props.sdk.field.onValueChanged(
-      this.onExternalChange
-    );
-  }
-
-  componentWillUnmount() {
-    this.detachExternalChangeHandler();
   }
 
   onExternalChange = value => {
@@ -45,7 +35,27 @@ class App extends React.Component {
     }
   };
 
+  onAddButtonClick = e => {
+    console.log("from click");
+
+    this.props.sdk.dialogs
+      .openExtension({
+        id: "contentful-recommendation-engine",
+        width: 500,
+        shouldCloseOnOverlayClick: true,
+        parameters: { test: true, value: 42 }
+      })
+      .then(data => {
+        console.log(data);
+      });
+  };
+
+  onDialogCloseButton = (data) => {
+    this.props.sdk.close(data);
+  }
+
   render = () => {
+<<<<<<< HEAD
     return (
       <div>
         <ReferenceCardWithRating
@@ -60,6 +70,31 @@ class App extends React.Component {
         />
       </div>
     );
+=======
+    if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
+      return <FieldView onClick={this.onAddButtonClick} />;
+    } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
+      let blocks = [
+        {
+          relevance: 95,
+          entry: {
+            title: "dummy",
+            type: "marketing",
+            entryId: "123"
+          }
+        },
+        {
+          relevance: 20,
+          entry: {
+            title: "dummy",
+            type: "marketing",
+            entryId: "123"
+          }
+        }
+      ];
+      return <RecommendationView sdk={this.props.sdk} blocks={blocks} onDone={this.onDialogCloseButton} />;
+    }
+>>>>>>> first
   };
 }
 
