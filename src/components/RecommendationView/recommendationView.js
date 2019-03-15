@@ -22,26 +22,26 @@ class RecommendationView extends React.Component {
     blocks: []
   };
   componentDidMount() {
-      let service = createRecService(this.props.sdk);
+    let service = createRecService(this.props.sdk);
 
-    return service.getMockedRecommendations().then((recs) => {
-        
+    return service.getMockedRecommendations().then(recs => {
       console.log(JSON.stringify(recs[0]));
       let blocks = recs.map(r => {
         let entry = r.entry;
-          return {
-            relevance: r.relevance,
-            entry: {
-              id: entry.sys.id,
-              type: 'marketing',
-              title: entry.fields.entryTitle? entry.fields.entryTitle["en-CA"] : ''
-            }
+        return {
+          relevance: r.relevance,
+          entry: {
+            id: entry.sys.id,
+            type: "marketing",
+            title: entry.fields.entryTitle
+              ? entry.fields.entryTitle["en-CA"]
+              : ""
           }
-        })
-
-      this.setState({blocks : blocks})
+        };
       });
 
+      this.setState({ blocks: blocks });
+    });
   }
 
   onFilterChange = event => {
@@ -71,6 +71,7 @@ class RecommendationView extends React.Component {
             >
               <Option value="marketing">Marketing</Option>
               <Option value="product">Product</Option>
+              <Option value="blog">Blog</Option>
               <Option value="other">Other</Option>
             </Select>
           </div>
@@ -82,12 +83,13 @@ class RecommendationView extends React.Component {
         <div className="blockSelector">
           {renderedBlocks.map(b => {
             return (
-              <div className="blockCard">
+              <div className="blockCard" key={b.entry.id}>
                 <ReferenceCardWithRating
-                  key={b.entry.id}
+                  id={b.entry.id}
                   rating={b.relevance}
                   type={"marketing"}
                   title={b.entry.title}
+                  image={b.entry.image}
                   selected={this.state.selectedBlock === b.entry.id}
                   onClick={() => this.onBlockSelected(b.entry.id)}
                 />
@@ -100,9 +102,7 @@ class RecommendationView extends React.Component {
             buttonType="positive"
             extraClassNames="endButtons"
             disabled={!this.state.selectedBlock}
-            onClick={() =>
-              this.props.onAdd(this.state.selectedBlock)
-            }
+            onClick={() => this.props.onAdd(this.state.selectedBlock)}
           >
             Insert Selected Entry
           </Button>

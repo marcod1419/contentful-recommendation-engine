@@ -7,7 +7,8 @@ import {
   SectionHeading,
   Paragraph,
   Asset,
-  Tag
+  Tag,
+  IconButton
 } from "@contentful/forma-36-react-components";
 
 import tokens from "@contentful/forma-36-tokens";
@@ -27,25 +28,47 @@ class ReferenceCardWithRating extends React.Component {
 
   render() {
     return (
-      <Card selected={this.props.selected} onClick={this.props.onClick}>
+      <Card
+        selected={this.props.selected}
+        onClick={this.props.onClick}
+        style={{ backgroundImage: `url(${this.props.image})` }}
+        extraClassNames="cardBg"
+      >
         <div className="cardContainer">
-          <div className="left">
-            <Paragraph>{this.props.type}</Paragraph>
-            <Subheading element="h1">{this.props.title}</Subheading>
-          </div>
-          <div className="right">
-            <Tag tagType={this.getRecLevel()} extraClassNames="recommendLevel">
-              Relevance: {this.props.rating}%
-            </Tag>
-            {this.props.image && (
-              <a href={this.props.image} target="_blank">
-                <Asset
-                  style={{ width: 80, height: 80 }}
-                  src={this.props.image}
-                  title={this.props.imageTitle}
-                />
-              </a>
-            )}
+          <div className="infoHeader">
+            <div className="left">
+              <Paragraph>{this.props.type}</Paragraph>
+              <Subheading element="h1">{this.props.title}</Subheading>
+            </div>
+            <div className="right">
+              {this.props.rating ? (
+                <Tag
+                  tagType={this.getRecLevel()}
+                  extraClassNames="recommendLevel"
+                >
+                  Relevance: {this.props.rating}%
+                </Tag>
+              ) : (
+                <div>
+                  <IconButton
+                    label="Edit"
+                    buttonType="muted"
+                    iconProps={{ icon: "Edit" }}
+                    onClick={() => {
+                      this.props.onEdit(this.props.id);
+                    }}
+                  />
+                  <IconButton
+                    label="Remove"
+                    buttonType="muted"
+                    iconProps={{ icon: "Close" }}
+                    onClick={() => {
+                      this.props.onRemove(this.props.id);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -54,20 +77,26 @@ class ReferenceCardWithRating extends React.Component {
 }
 
 ReferenceCardWithRating.propTypes = {
+  id: PropTypes.string,
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   image: PropTypes.string,
   imageTitle: PropTypes.string,
   rating: PropTypes.number.isRequired,
-  selected: PropTypes.boolean
+  selected: PropTypes.bool,
+  onEdit: PropTypes.func,
+  onRemove: PropTypes.func
 };
 
 ReferenceCardWithRating.defaultProps = {
+  id: undefined,
   description: undefined,
   image: undefined,
   imageTitle: undefined,
-  selected: false
+  selected: false,
+  onEdit: () => {},
+  onRemove: () => {}
 };
 
 export default ReferenceCardWithRating;
