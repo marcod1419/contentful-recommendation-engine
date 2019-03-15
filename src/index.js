@@ -19,17 +19,21 @@ class App extends React.Component {
     entries: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const service = createRecService(this.props.sdk);
+    const blocks = await service.getRecommendations();
+    const popular = await service.getPopularBlocks();
+    console.log("recommended", blocks);
+    console.log("popular", popular);
     this.props.sdk.window.startAutoResizer();
 
-    let entryIds = this.state.value ? this.state.value.map(v => v.sys.id) : undefined;
+    let entryIds = this.state.value
+      ? this.state.value.map(v => v.sys.id)
+      : undefined;
 
     if (!entryIds) {
       return;
     }
-
-
-    let service = createRecService(this.props.sdk);
 
     service.getReferencedEntries(entryIds).then(entries => {
       let data = entries.items.map(e => {
@@ -72,8 +76,7 @@ class App extends React.Component {
         parameters: { test: true, value: 42 }
       })
       .then(data => {
-
-        console.log('incoming data: ' + JSON.stringify(data));
+        console.log("incoming data: " + JSON.stringify(data));
 
         return;
         let entry = [
@@ -81,7 +84,7 @@ class App extends React.Component {
             sys: {
               type: "Link",
               linkType: "Entry",
-              id:'123' 
+              id: "123"
             }
           }
         ];
@@ -100,14 +103,20 @@ class App extends React.Component {
 
   render = () => {
     if (this.props.sdk.location.is(locations.LOCATION_ENTRY_FIELD)) {
-      return <FieldView onClick={this.onAddButtonClick} blocks={this.state.entries} />;
+      return (
+        <FieldView
+          onClick={this.onAddButtonClick}
+          blocks={this.state.entries}
+        />
+      );
     } else if (this.props.sdk.location.is(locations.LOCATION_DIALOG)) {
-
-          return <RecommendationView
-            sdk={this.props.sdk}
-            onAdd={this.onDialogAddButton}
-            onClose={this.onDialogCloseButton}
-          />
+      return (
+        <RecommendationView
+          sdk={this.props.sdk}
+          onAdd={this.onDialogAddButton}
+          onClose={this.onDialogCloseButton}
+        />
+      );
     }
   };
 }
